@@ -83,19 +83,19 @@ int main() {
         } else {
           ref.value -= 1;
         }
-        if (matrix[j - 1][i - 1].value + ref.value >= matrix[j][i - 1].value &&
-            matrix[j - 1][i - 1].value + ref.value >= matrix[j - 1][i].value) {
+        if (matrix[j - 1][i - 1].value + ref.value >= matrix[j][i - 1].value -1 &&
+            matrix[j - 1][i - 1].value + ref.value >= matrix[j - 1][i].value -1) {
           ref.value += matrix[j - 1][i - 1].value;
           ref.origin_i = i - 1;
           ref.origin_j = j - 1;
-        } else if (matrix[j][i - 1].value >
-                       matrix[j - 1][i - 1].value + ref.value &&
+        } else if (matrix[j][i - 1].value -1 >
+                       matrix[j - 1][i - 1].value + ref.value && 
                    matrix[j][i - 1].value > matrix[j - 1][i].value) {
           // ref.value += matrix[j][i - 1].value;
           ref.value = matrix[j][i - 1].value - 1;
           ref.origin_i = i - 1;
           ref.origin_j = j;
-        } else if (matrix[j - 1][i].value >
+        } else if (matrix[j - 1][i].value -1 >
                        matrix[j - 1][i - 1].value + ref.value &&
                    matrix[j - 1][i].value > matrix[j][i - 1].value) {
           // ref.value += matrix[j - 1][i].value;
@@ -116,16 +116,16 @@ int main() {
       }
     }
   }
-  // cout << seq1 << endl;
-  // cout << seq2 << endl;
-  // for (int j = 0; (unsigned)j < seq2.length(); j++) {
-  //   for (int i = 0; (unsigned)i < seq1.length(); i++) {
-  //     cout << matrix[j][i].value << " ";
-  //     // if (j == 3 and i == 1)
-  //     //   cout << matrix[j][i].origin_i << "." << matrix[j][i].origin_j;
-  //   }
-  //   cout << endl;
-  // }
+  cout << seq1 << endl;
+  cout << seq2 << endl;
+  for (int j = 0; (unsigned)j < seq2.length(); j++) {
+    for (int i = 0; (unsigned)i < seq1.length(); i++) {
+      cout << matrix[j][i].value << " ";
+      // if (j == 3 and i == 1)
+      //   cout << matrix[j][i].origin_i << "." << matrix[j][i].origin_j;
+    }
+    cout << endl;
+  }
   resVault result;
   result = seq_construct(matrix, max_cell, seq1, seq2, seq3, max_i, max_j);
   result.v1.erase(0, 1);
