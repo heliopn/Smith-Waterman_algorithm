@@ -17,7 +17,7 @@ struct resVault {
   int includ_i = 0, includ_j = 0;
 };
 
-resVault seq_construct(vector<vector<cell>> matrix, cell celula, string seq1,
+resVault seq_construct(vector<vector<cell>>& matrix, cell celula, string seq1,
                        string seq2, string seq3, int ati, int atj) {
   cell anterior;
   resVault resp;
@@ -116,16 +116,16 @@ int main() {
       }
     }
   }
-  cout << seq1 << endl;
-  cout << seq2 << endl;
-  for (int j = 0; (unsigned)j < seq2.length(); j++) {
-    for (int i = 0; (unsigned)i < seq1.length(); i++) {
-      cout << matrix[j][i].value << " ";
-      // if (j == 3 and i == 1)
-      //   cout << matrix[j][i].origin_i << "." << matrix[j][i].origin_j;
-    }
-    cout << endl;
-  }
+  // cout << seq1 << endl;
+  // cout << seq2 << endl;
+  // for (int j = 0; (unsigned)j < seq2.length(); j++) {
+  //   for (int i = 0; (unsigned)i < seq1.length(); i++) {
+  //     cout << matrix[j][i].value << " ";
+  //     // if (j == 3 and i == 1)
+  //     //   cout << matrix[j][i].origin_i << "." << matrix[j][i].origin_j;
+  //   }
+  //   cout << endl;
+  // }
   resVault result;
   result = seq_construct(matrix, max_cell, seq1, seq2, seq3, max_i, max_j);
   result.v1.erase(0, 1);
@@ -147,4 +147,5 @@ int main() {
   cout << result.v2 << endl;
   cout << result.v3 << endl;
   cout << result.v1 << endl;
+  cout<<"Max: "<<max_cell.value<<endl;
 }

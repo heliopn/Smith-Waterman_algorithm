@@ -8,7 +8,7 @@ using u32 = uint_least32_t;
 using engine = std::mt19937;
 using namespace std;
 
-int AlgoGen(int m, int n, string seq1, string seq2) {
+int AlgoGen(int m, int n, string& seq1, string& seq2) {
   m--;
   n--;
   if (m < 0) {
@@ -43,10 +43,10 @@ int main(void) {
     seq1 = seq2;
     seq2 = tempS;
   }
-  uniform_int_distribution<u32> distributeP(1, m);
-  int p = distributeP(generator);
+  // P em função de K
   uniform_int_distribution<u32> distributeK(1, m);
   int k = distributeK(generator);
+  int p = 4*k;
   uniform_int_distribution<u32> distributeJ(0, m - k);
   int j = distributeJ(generator);
   string seqJ = seq1.substr(j, k);
@@ -59,10 +59,11 @@ int main(void) {
       // maxS1 = seqJ;
       // maxS2 = seqI;
       max_value = actual;
-    } else if (actual == max_value) {
-      count++;
     }
+    count++;
   }
+  // cout << seq1 << endl;
+  // cout << seq2 << endl;
   cout << max_value << endl;
   return 0;
 }
