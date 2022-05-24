@@ -8,7 +8,7 @@ using u32 = uint_least32_t;
 using engine = std::mt19937;
 using namespace std;
 
-int AlgoGen(int m, int n, string& seq1, string& seq2) {
+int AlgoGen(int m, int n, string &seq1, string &seq2) {
   m--;
   n--;
   if (m < 0) {
@@ -26,8 +26,7 @@ int main(void) {
   random_device os_seed;
   const u32 seed = os_seed();
   int max_value = 0;
-  int n, m, count;
-  count = 0;
+  int n, m;
   cin >> m;
   cin >> n;
   string seq1, seq2;
@@ -46,25 +45,27 @@ int main(void) {
   // P em função de K
   uniform_int_distribution<u32> distributeK(1, m);
   int k = distributeK(generator);
-  int p = 4*k;
+  int p = 4 * k;
   uniform_int_distribution<u32> distributeJ(0, m - k);
   int j = distributeJ(generator);
   string seqJ = seq1.substr(j, k);
-  while (count < p) {
+#pragma omp parallel for shared(max_value)
+  for (int w = 0; w < p; w++) {
     uniform_int_distribution<u32> distributeI(0, n - k);
     int i = distributeI(generator);
     string seqI = seq2.substr(i, k);
     int actual = AlgoGen(k, k, seqJ, seqI);
-    if (actual > max_value) {
-      // maxS1 = seqJ;
-      // maxS2 = seqI;
-      max_value = actual;
+#pragma omp critical
+    {
+      if (actual > max_value) {
+        max_value = actual;
+        // maxS1 = seqJ;
+        // maxS2 = seqI;
+      }
     }
-    count++;
   }
   // cout << seq1 << endl;
   // cout << seq2 << endl;
-  // cout << max_value << endl;
+  cout << max_value << endl;
   return 0;
 }
-
