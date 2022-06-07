@@ -1,4 +1,3 @@
-% % writefile gpu_exaustiva.cu
 #include <algorithm>
 #include <iostream>
 #include <thrust/host_vector.h>
@@ -11,7 +10,7 @@
 #include <iomanip>
 #include <tuple>
 
-    using namespace std;
+using namespace std;
 
 struct up_comp
 {
@@ -20,9 +19,9 @@ struct up_comp
     up_comp(int chr_) : chr(chr_){};
     __host__ __device__ int operator()(const thrust::tuple<char, int, int> &tup)
     {
-        int act_val = thrust::get<1>(tup);
+        int act_val = thrust::get<0>(tup);
 
-        if (chr == thrust::get<0>(tup))
+        if (chr == thrust::get<2>(tup))
         {
             l_up = act_val + 2;
         }
@@ -30,7 +29,7 @@ struct up_comp
         {
             l_up = act_val - 1;
         }
-        up = thrust::get<2>(tup) - 1;
+        up = thrust::get<1>(tup) - 1;
         if (l_up > up && l_up > 0)
         {
             return l_up;
@@ -66,7 +65,7 @@ struct left_comp
 int main()
 {
     int m, n;
-    int as, bs, max;
+    int as, bs, max, fixMax;
     string seq1, seq2;
 
     cin >> m;
@@ -88,10 +87,12 @@ int main()
     if (m > n)
     {
         max = n;
+     fixMax = n;
     }
     else
     {
         max = m;
+     fixMax = m;
     }
 
     for (int i = 0; i < m + 1; i++)
@@ -114,12 +115,12 @@ int main()
                 thrust::fill(res1.begin(), res1.end(), 0);
                 for (int k = 0; k <= max; k++)
                 {
-                    thrust::transform(thrust::make_zip_iterator(thrust::make_tuple(seq2_GPU.begin() + 1 + j,
-                                                                                   res1.begin(),
-                                                                                   res1.begin() + 1)),
-                                      thrust::make_zip_iterator(thrust::make_tuple(seq2_GPU.end() + 1 + j + max,
-                                                                                   res1.begin() + max,
-                                                                                   res1.begin() + 1 + max)),
+                    thrust::transform(thrust::make_zip_iterator(thrust::make_tuple(res1.begin(),
+                                                                                   res1.begin() + 1,
+                                                                                  seq2_GPU.begin() + 1 + j)),
+                                      thrust::make_zip_iterator(thrust::make_tuple(res1.begin() + max,
+                                                                                   res1.begin() + 1 + max,
+                                                                                    seq2_GPU.end() + 1 + j + max)),
                                       copy_res1.begin() + 1,
                                       up_comp(seq1_GPU[k]));
 

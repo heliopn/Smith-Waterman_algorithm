@@ -34,6 +34,7 @@ int main(void) {
   cin >> seq1;
   cin >> seq2;
   engine generator(seed);
+  vector<int> v;
   if (m > n) {
     int temp = m;
     m = n;
